@@ -2,10 +2,14 @@ import requests
 from django.shortcuts import render
 from bs4 import BeautifulSoup
 from requests.compat import quote_plus
+from . import models
 
 # Create your views here.
 
+#base url of craigslist website
 BASE_SITE_URL = 'https://newyork.craigslist.org/search/?query={}'
+
+#base url of craigslist post image
 BASE_IMAGE_URL = 'https://images.craigslist.org/{}_300x300.jpg'
 
 def home(request):
@@ -13,13 +17,17 @@ def home(request):
 
 def search(request):
     search_text = request.POST.get('search')
+    #storing search text in database
+    models.Search.objects.create(search = search_text) 
     final_url = BASE_SITE_URL.format(quote_plus(search_text))
     print(final_url)
+    #connecting with craigsList with a search key
     response = requests.get(final_url)
+    #getting search results in html format
     site_data = response.text
 
     soup = BeautifulSoup(site_data, features='html.parser')
-
+    #getting all the search result posts
     posts = soup.find_all('li', {'class' : 'result-row'})
 
     final_posts = []
@@ -48,6 +56,6 @@ def search(request):
         'search' : search_text,
         'final_posts' : final_posts,
     }
-    print(frontend_stuff)
+    #print(frontend_stuff)
 
     return render(request, 'search_list.html', frontend_stuff)
