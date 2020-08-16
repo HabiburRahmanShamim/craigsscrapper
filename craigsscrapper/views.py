@@ -5,7 +5,7 @@ from django.shortcuts import render
 def home(request):
     return render(request, 'index.html')
 
-def new_search(request):
+def search(request):
     search_text = request.POST.get('search')
     print(search_text)
     return render(request, 'search_list.html')
