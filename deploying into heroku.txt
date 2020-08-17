@@ -1,0 +1,58 @@
+#Install heroku on your environment
+$ npm install -g heroku
+
+#Login with heroku
+$ heroku login
+(It will open a browser tab, provide information for log in)
+
+#create a Heroku application linked to the Git repository:
+$ heroku create <name_of_site>
+Creating app... done, 
+https://nameless-tundra-24362.herokuapp.com/ | https://git.heroku.com/nameless-tundra-24362.git
+
+
+Specifically, Heroku needs 6 changes to our out-of-the-box Django app:
+-Gunicorn
+-Procfile
+-django-heroku
+-STATIC_ROOT / PROJECT_ROOT in settings.py
+-requirements.txt
+-runtime.txt
+
+#Install gunicorn on same environment
+$ pip install gunicorn
+
+#Create a Procfile on your root project directory
+and add this line into the file -> web: gunicorn <project_name>.wsgi
+
+#Install django-heroku while you are in project dir
+$ pip install django-heroku
+
+#Open settings.py and add this two lines
+import django_heroku #at first
+ ...
+ ...
+django_heroku.settings(locals()) #at last
+
+
+#Create STATIC_ROOT and PROJECT_ROOT in settings.py
+....
+....
+PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
+STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(PROJECT_ROOT, 'static')
+
+#Make a requirements.txt
+$pip freeze >> requirements.txt
+
+#Create a runtime.txt on root and write your python version eg. python-3.8.5
+
+#Add all modification to git
+$git add .
+then 
+$git commit -m "<comment>"
+
+#Then push this into heroku
+$ git push heroku master
+
+Then open your app :)
