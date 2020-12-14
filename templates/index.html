@@ -13,11 +13,11 @@
 </head>
 
 <body> 
-    <nav>
+    <nav style="background:rgb(45, 129, 255)">
         <div class="container nav-wrapper">
             <a href="/" class="brand-logo">Craigsscrapper</a>
             <ul id="nav-mobile" class="right">
-                <li><a href="/">Home</a></li>
+                <li><a href="/" style="font-size: x-large;">Home</a></li>
             </ul>
         </div>
     </nav>
@@ -27,41 +27,61 @@
             <div class="col s4">
                 <!-- Promo Content 1 goes here -->
                 <div class="center">
-                    <i class="large material-icons" style="color: #EE6E73">flash_on</i>
+                    <i class="large material-icons" style="color: #d6d306">flash_on</i>
                     <p>Fast craigslist web scraper</p>
-                    <p class="light center">Scrape away right here with a beautiful GUI.</p>
                 </div>
             </div>
     
             <div class="col s4">
                 <!-- Promo Content 2 goes here -->
                 <div class="center">
-                    <i class="large material-icons" style="color: orange">search</i>
+                    <i class="large material-icons" style="color: rgb(8, 113, 117)">search</i>
                     <p>Filter your searches</p>
-                    <p class="light center">We built in functionality to filter based on pricing.</p>
                 </div>
             </div>
     
             <div class="col s4">
                 <!-- Promo Content 3 goes here -->
                 <div class="center">
-                    <i class="large material-icons" style="color: blue">chrome_reader_mode</i>
+                    <i class="large material-icons" style="color: rgb(12, 90, 180)">chrome_reader_mode</i>
                     <p>A much prettier front-end to Craigslist ❤️</p>
                 </div>
             </div>
         </div>
         
-        <form action="{% url 'search' %}" method="post">
+        <form action='{% url "search" %}' method="post" id="post-form">
             {% csrf_token %}
-            <input type="text" name="search" placeholder="search">
-            <button class="btn waves-effect waves-light" type="submit" name="action">Submit
+            <input type="text" name="search" placeholder="search" id="input_text">
+            <div class="row">
+                <div class="col s6"><input type="text", name="minPrice", placeholder="Minimum Price", id="minP"></div>
+                <div class="col s6"><input type="text", name="maxPrice", placeholder="Maximum Price", id="maxP"></div>
+            </div>
+            <div class="row">
+                <div class="input-field col s12">
+                    <select name="sortBy">
+                        <option value="date">Date</option>
+                        <option value="rel">Relevant</option>
+                        <option value="pricedsc">Price Up</option>
+                        <option value="priceasc">Price Down</option>
+                    </select>
+                    <label>Sort By</label>
+                </div>
+            </div>
+            <button class="btn waves-effect waves-light" type="submit" name="action" id="send">Submit
                 <i class="material-icons right">send</i>
             </button>
         </form>
-    
+        
         {% block content %}
     
         {% endblock content %}
-        <div class="right">Developed by :<a href="https://github.com/HabiburRahmanShamim"> https://github.com/HabiburRahmanShamim</a></div>
+        <div class="right">Developed by :<a href="https://github.com/hrahmansha"> https://github.com/hrahmansha</a></div>
     </div>
 </body>
+<script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.6/js/materialize.min.js"></script>
+<script>
+    $(document).ready(function(){
+        $('select').material_select();
+    });
+</script>

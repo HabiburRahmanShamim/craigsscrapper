@@ -17,9 +17,21 @@ def home(request):
 
 def search(request):
     search_text = request.POST.get('search')
+    minPrice = request.POST.get('minPrice')
+    maxPrice = request.POST.get('maxPrice')
+    sortBy = request.POST.get('sortBy')
     #storing search text in database
     models.Search.objects.create(search = search_text) 
     final_url = BASE_SITE_URL.format(quote_plus(search_text))
+    print(final_url)
+    print(search_text, minPrice, maxPrice, sortBy)
+    s = ""
+    if len(minPrice) > 0 and len(maxPrice) > 0:
+        s += "&min_price="+minPrice+"&max_price="+maxPrice
+    if len(sortBy) > 0:
+        s += "&sort="+sortBy
+    print(s)
+    final_url += s
     print(final_url)
     #connecting with craigsList with a search key
     response = requests.get(final_url)
